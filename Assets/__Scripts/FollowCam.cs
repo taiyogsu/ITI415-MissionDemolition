@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FollowCam : MonoBehaviour {
+public class FollowCam : MonoBehaviour
+{
     static public FollowCam S; // a FollowCam Singleton
 
-    //fields set in the Unity Inspector pane
+    // fields set in the Unity Inspector pane
     public float easing = 0.05f;
     public Vector2 minXY;
-    public bool ___________________;
+    public bool _____________________________;
 
-    //fields set dynamically 
-    public GameObject poi;//the point of interest
-    public float camZ;//The desired Z pos of the camera
+    // fields set dynamically
+    public GameObject poi; // The point of interest
+    public float camZ; // The desired Z pos of the camera
 
     void Awake()
     {
@@ -19,15 +20,15 @@ public class FollowCam : MonoBehaviour {
         camZ = this.transform.position.z;
     }
 
-	
-	// Update is called once per frame
-	void FixedUpdate () {
-        Vector3 destination;
+    void FixedUpdate()
+    {
+         Vector3 destination;
         // If there is no poi, return to P:[0,0,0]
         if (poi == null)
         {
             destination = Vector3.zero;
-        }        else
+        }
+        else
         {
             // Get the position of the poi
             destination = poi.transform.position;
@@ -35,7 +36,7 @@ public class FollowCam : MonoBehaviour {
             if (poi.tag == "Projectile")
             {
                 // if it is sleeping (that is, not moving)
-                if ( poi.GetComponent<Rigidbody>().IsSleeping() )
+                if (poi.GetComponent<Rigidbody>().IsSleeping())
                 {
                     // return to default view
                     poi = null;
@@ -44,17 +45,22 @@ public class FollowCam : MonoBehaviour {
                 }
             }
         }
-
-        //Limit the X & Y to minimum values
+        // Limit the X & Y to minimum values
         destination.x = Mathf.Max(minXY.x, destination.x);
         destination.y = Mathf.Max(minXY.y, destination.y);
-        //interpolate from the current Camera position toward destination
+        // Interpolate from the current Camera position toward destination
         destination = Vector3.Lerp(transform.position, destination, easing);
-        //retain a destination.z of CamZ
+        // Retain a destination.z of camZ
         destination.z = camZ;
-        //set the camera to the destination
+        // Set the camera to the destination
         transform.position = destination;
-        //Set the orthographicSize of the Camera to keep Ground in view
+        // Set the camera to the destination
+        transform.position = destination;
+        // Set the orthographicSize of the Camera to keep Ground in view
         this.GetComponent<Camera>().orthographicSize = destination.y + 10;
-	}
+    }
+
+    
 }
+
+
